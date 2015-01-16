@@ -3,7 +3,6 @@ import os, sys, pygame, gtk
 import pyscreenshot as pshot
 from pygame.locals import *
 
-
 BLACK = (0, 0, 0)
 
 class Engine(object):
@@ -84,26 +83,38 @@ class Engine(object):
 
             elif event.key == K_4 or event.key == K_KP4:
                 self.preAdjustment()
+                self.curRect.x = self.curRect.left
+                self.curRect.y += (self.curRect.bottom/3)
                 self.postAdjustment()
 
             elif event.key == K_5 or event.key == K_KP5:
                 self.preAdjustment()
+                self.curRect.x += (self.curRect.width/3)
+                self.curRect.y += (self.curRect.height/3)
                 self.postAdjustment()
 
             elif event.key == K_6 or event.key == K_KP6:
                 self.preAdjustment()
+                self.curRect.x = (self.curRect.right-(self.curRect.width/3))
+                self.curRect.y += (self.curRect.height/3)
                 self.postAdjustment()
                 
             elif event.key == K_7 or event.key == K_KP7:
                 self.preAdjustment()
+                self.curRect.x = self.curRect.left
+                self.curRect.y += ((self.curRect.bottom/3)*2)
                 self.postAdjustment()
                 
             elif event.key == K_8 or event.key == K_KP8:
                 self.preAdjustment()
+                self.curRect.x += (self.curRect.width/3)
+                self.curRect.y += ((self.curRect.height/3)*2)
                 self.postAdjustment()
                 
             elif event.key == K_9 or event.key == K_KP9:
                 self.preAdjustment()
+                self.curRect.x = (self.curRect.right-(self.curRect.width/3))
+                self.curRect.y += ((self.curRect.height/3)*2)
                 self.postAdjustment()
 
     def stop(self):
@@ -114,10 +125,11 @@ class Engine(object):
 
 
 def DrawLines(screen, r, lw, ptx):
+    print "Left, Right, Height, Width, X, Y = "+str(r.left)+", "+str(r.right)+", "+str(r.height)+", "+str(r.width)+", "+str(r.x)+", "+str(r.y)
     pygame.draw.rect(screen, BLACK, r, lw)
     ##Horizontal
-    pygame.draw.line(screen, BLACK, (r.left, r.height/3), (r.right, r.height/3), lw)
-    pygame.draw.line(screen, BLACK, (r.left, (r.height/3*2)), (r.right, (r.height/3*2)), lw)
+    pygame.draw.line(screen, BLACK, (r.left, r.bottom-(2/3*r.height)), (r.right,r.bottom-(2/3*r.height)) , lw)
+    pygame.draw.line(screen, BLACK, (r.left, (r.top+(2/3*r.height))), (r.right, (r.top+(2/3*r.height))), lw)
     ##Vertical
     pygame.draw.line(screen, BLACK, ((r.right-r.width/3), r.top), ((r.right-r.width/3), r.bottom), lw)
     pygame.draw.line(screen, BLACK, ((r.right-(r.width/3*2)), r.top), ((r.right-r.width/3*2), r.bottom), lw)
