@@ -1,11 +1,12 @@
+#!/usr/bin/env python
+
 from __future__ import division
-import os, sys, pygame, gtk
+import os, sys, time, subprocess
 import pyscreenshot as pshot
+import pygame, gtk
 from pygame.locals import *
 
 BLACK = (0, 0, 0)
-
-#Testing Comment
 
 class Engine(object):
     def __init__(self):
@@ -39,6 +40,21 @@ class Engine(object):
         self.curRect.height /= 3
         self.line_width -= 1
         self.render = True
+
+    def moveMouse(self, x, y):
+        cmd = "xdotool mousemove {x} {y}".format(x=x, y=y)
+        os.popen(cmd)
+
+    def doubleClickMouse(self):
+        os.popen("xdotool click 1")
+        time.sleep(0.25)
+        os.popen("xdotool click 1")
+
+    def singleClickMouse(self):
+        os.popen("xdotool click 1")
+
+    def rightClickMouse(self):
+        os.popen("xdotool click 3")
 
     def run(self):
         clock = pygame.time.Clock()
@@ -118,6 +134,11 @@ class Engine(object):
                 self.curRect.x = (self.curRect.right-(self.curRect.width/3))
                 self.curRect.y += ((self.curRect.height/3)*2)
                 self.postAdjustment()
+
+            elif event.key == K_RETURN or event.key == pygame.K_KP_ENTER:
+                x,y = self.curRect.center
+                subprocess.Popen("moveandclick.py "+str(x)+" "+str(y), shell=True)
+                self.stop()
 
     def stop(self):
         self._running = False
