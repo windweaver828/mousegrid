@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
 from __future__ import division
-import os, sys, time, subprocess
-import pyscreenshot as pshot
-import pygame, gtk
+import os
+import time
+import gtk
+import pygame
 from pygame.locals import *
+from pyscreenshot import grab as snapshot
 
 BLACK = (0, 0, 0)
+
 
 class Engine(object):
     def __init__(self):
@@ -20,11 +23,11 @@ class Engine(object):
         self.count = 0
         x, y, scwidth, scheight = gtk.Window().get_screen().get_monitor_geometry(0)
         self.bgname = 'background.jpg'
-        im=pshot.grab(bbox=(0,0,int(scwidth),int(scheight)))
+        im = snapshot(bbox=(0, 0, int(scwidth), int(scheight)))
         im.save(self.bgname)
-        self.background=pygame.image.load(self.bgname)
+        self.background = pygame.image.load(self.bgname)
         size = scwidth, scheight
-        self.screen=pygame.display.set_mode(size, pygame.NOFRAME)
+        self.screen = pygame.display.set_mode(size, pygame.NOFRAME)
 
         self.prevRects = list()
         self.curRect = self.screen.get_rect()
@@ -47,7 +50,7 @@ class Engine(object):
 
     def doubleClickMouse(self):
         os.popen("xdotool click 1")
-        time.sleep(0.25)
+        time.sleep(0.1)
         os.popen("xdotool click 1")
 
     def singleClickMouse(self):
@@ -70,7 +73,7 @@ class Engine(object):
     def on_render(self):
         self.screen.blit(self.background, (0, 0))
         DrawLines(self.screen, self.curRect, self.line_width, self.ptx)
-        self.render = False #Always last line of on_render function
+        self.render = False  # Always last line of on_render function
 
     def on_event(self, event):
         if event.type == KEYDOWN:
@@ -136,8 +139,10 @@ class Engine(object):
                 self.postAdjustment()
 
             elif event.key == K_RETURN or event.key == pygame.K_KP_ENTER:
-                x,y = self.curRect.center
-                subprocess.Popen("moveandclick.py "+str(x)+" "+str(y), shell=True)
+                pygame.quit()
+                x, y = self.curRect.center
+                self.moveMouse(x, y)
+                self.doubleClickMouse()
                 self.stop()
 
     def stop(self):
@@ -148,10 +153,9 @@ class Engine(object):
 
 
 def DrawLines(screen, r, lw, ptx):
-    print "Left, Right, Height, Width, X, Y = "+str(r.left)+", "+str(r.right)+", "+str(r.height)+", "+str(r.width)+", "+str(r.x)+", "+str(r.y)
     pygame.draw.rect(screen, BLACK, r, lw)
     ##Horizontal
-    pygame.draw.line(screen, BLACK, (r.left, r.bottom-(2/3*r.height)), (r.right,r.bottom-(2/3*r.height)) , lw)
+    pygame.draw.line(screen, BLACK, (r.left, r.bottom-(2/3*r.height)), (r.right, r.bottom-(2/3*r.height)), lw)
     pygame.draw.line(screen, BLACK, (r.left, (r.top+(2/3*r.height))), (r.right, (r.top+(2/3*r.height))), lw)
     ##Vertical
     pygame.draw.line(screen, BLACK, ((r.right-r.width/3), r.top), ((r.right-r.width/3), r.bottom), lw)
@@ -167,11 +171,11 @@ def DrawLines(screen, r, lw, ptx):
     text7 = font.render("7", 1, BLACK)
     text8 = font.render("8", 1, BLACK)
     text9 = font.render("9", 1, BLACK)
-    screen.blit(text1, (((r.left+(r.width/6)-ptx/3)),(r.top+(r.height/6))-ptx/3))
+    screen.blit(text1, (((r.left+(r.width/6)-ptx/3)), (r.top+(r.height/6))-ptx/3))
     screen.blit(text2, ((r.centerx-(ptx/3)), (r.top+r.height/6)-ptx/3))
     screen.blit(text3, (((r.right-(r.width/6)-ptx/3)), (r.top+(r.height/6))-ptx/3))
-    screen.blit(text4, (((r.left+(r.width/6)-ptx/3)),(r.centery-ptx/3)))
-    screen.blit(text5, ((r.centerx-ptx/3),(r.centery-ptx/3)))
+    screen.blit(text4, (((r.left+(r.width/6)-ptx/3)), (r.centery-ptx/3)))
+    screen.blit(text5, ((r.centerx-ptx/3), (r.centery-ptx/3)))
     screen.blit(text6, (((r.right-(r.width/6)-ptx/3)), (r.centery-ptx/3)))
     screen.blit(text7, (((r.left+(r.width/6)-ptx/3)), (r.bottom-(r.height/6))-ptx/3))
     screen.blit(text8, (((r.centerx-ptx/3), (r.bottom-(r.height/6))-ptx/3)))
