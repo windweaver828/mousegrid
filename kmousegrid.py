@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# Test Comment
-
 from __future__ import division
 import os
 import time
@@ -155,6 +153,7 @@ class Engine(object):
 
 
 def DrawLines(screen, r, lw, ptx):
+    ##Bounding Box
     pygame.draw.rect(screen, BLACK, r, lw)
     ##Horizontal
     pygame.draw.line(screen, BLACK, (r.left, r.bottom-(2/3*r.height)), (r.right, r.bottom-(2/3*r.height)), lw)
