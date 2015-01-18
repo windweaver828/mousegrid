@@ -28,7 +28,8 @@ class Engine(object):
         self.background = pygame.image.load(self.bgname)
         size = scwidth, scheight
         self.screen = pygame.display.set_mode(size, pygame.NOFRAME)
-
+        self.ctrldown = False
+        self.altdown = False
         self.prevRects = list()
         self.curRect = self.screen.get_rect()
 
@@ -85,8 +86,14 @@ class Engine(object):
                     self.ptx += 10
                     self.line_width += 1
                     self.render = True
+                    
+            elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+                self.ctrldown = True
 
-            if event.key == K_1 or event.key == K_KP1:
+            elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
+                self.altdown = True
+                
+            elif event.key == K_1 or event.key == K_KP1:
                 self.preAdjustment()
                 self.postAdjustment()
 
@@ -138,12 +145,32 @@ class Engine(object):
                 self.curRect.y += ((self.curRect.height/3)*2)
                 self.postAdjustment()
 
+            elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.ctrldown:
+                pygame.quit()
+                x, y = self.curRect.center
+                self.moveMouse(x, y)
+                self.singleClickMouse()
+                self.stop
+                    
+            elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.altdown:
+                pygame.quit()
+                x, y = self.curRect.center
+                self.moveMouse(x, y)
+                self.rightClickMouse()
+                self.stop()
+                    
             elif event.key == K_RETURN or event.key == pygame.K_KP_ENTER:
                 pygame.quit()
                 x, y = self.curRect.center
                 self.moveMouse(x, y)
                 self.doubleClickMouse()
                 self.stop()
+
+        elif event.type==KEYUP:
+            if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+                self.ctrldown = False
+            elif event.key == pygame.K_LALT or event.key == pygame.K_RALT:
+                self.altdown = False
 
     def stop(self):
         self._running = False
