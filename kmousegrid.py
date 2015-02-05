@@ -112,33 +112,7 @@ class Engine(object):
 
             elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
                 self.altdown = True
-            # find a way to translate event keypress info into an int and pass it directly.. hell of a lot less checks..
-            elif event.key == K_1 or event.key == K_KP1:
-                self.crop(1)
 
-            elif event.key == K_2 or event.key == K_KP2:
-                self.crop(2)
-
-            elif event.key == K_3 or event.key == K_KP3:
-                self.crop(3)
-
-            elif event.key == K_4 or event.key == K_KP4:
-                self.crop(4)
-
-            elif event.key == K_5 or event.key == K_KP5:
-                self.crop(5)
-
-            elif event.key == K_6 or event.key == K_KP6:
-                self.crop(6)
-
-            elif event.key == K_7 or event.key == K_KP7:
-                self.crop(7)
-
-            elif event.key == K_8 or event.key == K_KP8:
-                self.crop(8)
-
-            elif event.key == K_9 or event.key == K_KP9:
-                self.crop(9)
 
             elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.ctrldown:
                 pygame.quit()
@@ -153,6 +127,13 @@ class Engine(object):
                 self.moveMouse(x, y)
                 self.rightClickMouse()
                 self.stop()
+
+            else:
+                keyname = pygame.key.name(event.key)
+                print(type(keyname), keyname)
+                try: number = int(keyname)
+                except TypeError: pass
+                self.crop(number)
                     
             elif event.key == K_RETURN or event.key == pygame.K_KP_ENTER:
                 pygame.quit()
