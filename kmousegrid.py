@@ -129,7 +129,7 @@ class Engine(object):
                 keyname = pygame.key.name(event.key)
                 print(type(keyname), keyname)
                 try: number = int(keyname)
-                except TypeError: pass
+                except ValueError, TypeError: pass
          
 
         elif event.type==KEYUP:
