@@ -33,6 +33,12 @@ class Engine(object):
         self.prevRects = list()
         self.curRect = self.screen.get_rect()
 
+    def crop(self, number):
+        # should use 3 ifs to crop rects
+        preAdjustment()
+        # if statements
+        postAdjustment()
+
     def preAdjustment(self):
         self.prevRects.append(pygame.Rect(self.curRect))
         self.ptx -= 10
@@ -92,7 +98,7 @@ class Engine(object):
 
             elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
                 self.altdown = True
-                
+            # self.crop should shorten this all alot
             elif event.key == K_1 or event.key == K_KP1:
                 self.preAdjustment()
                 self.postAdjustment()
