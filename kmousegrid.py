@@ -126,10 +126,10 @@ class Engine(object):
                 self.stop()
 
             else:
-                keyname = pygame.key.name(event.key)
+                keyname = pygame.key.name(event.key)[0]
                 print(type(keyname), keyname)
                 try: number = int(keyname)
-                except ValueError, TypeError: pass
+                except ZeroDivisionError: pass
          
 
         elif event.type==KEYUP:
