@@ -34,9 +34,23 @@ class Engine(object):
         self.curRect = self.screen.get_rect()
 
     def crop(self, number):
-        # should use 3 ifs to crop rects
         preAdjustment()
-        # if statements
+        # adjust x
+        if number == 1: pass
+        elif number in [4, 7]:
+            self.curRect.x = self.curRect.left
+        elif number in [2, 5, 8]:
+            self.curRect.x += (self.curRect.width/3)
+        elif number in [3, 6, 9]:
+            self.curRect.x = (self.curRect.right - (self.curRect.width/3))
+        # adjust y
+        if number == 1: pass
+        elif number in [2, 3]:
+            self.curRect.y = self.curRect.top
+        elif number in [4, 5, 6]:
+            self.curRect.y += (self.curRect.bottom/3)
+        elif number in [7, 8, 9]:
+            self.curRect.y += ((self.curRect.bottom/3)*2)
         postAdjustment()
 
     def preAdjustment(self):
@@ -98,58 +112,33 @@ class Engine(object):
 
             elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
                 self.altdown = True
-            # self.crop should shorten this all alot
+            # find a way to translate event keypress info into an int and pass it directly.. hell of a lot less checks..
             elif event.key == K_1 or event.key == K_KP1:
-                self.preAdjustment()
-                self.postAdjustment()
+                self.crop(1)
 
             elif event.key == K_2 or event.key == K_KP2:
-                self.preAdjustment()
-                self.curRect.x += (self.curRect.width/3)
-                self.curRect.y = self.curRect.top
-                self.postAdjustment()
+                self.crop(2)
 
             elif event.key == K_3 or event.key == K_KP3:
-                self.preAdjustment()
-                self.curRect.x = (self.curRect.right-(self.curRect.width/3))
-                self.curRect.y = self.curRect.top
-                self.postAdjustment()
+                self.crop(3)
 
             elif event.key == K_4 or event.key == K_KP4:
-                self.preAdjustment()
-                self.curRect.x = self.curRect.left
-                self.curRect.y += (self.curRect.bottom/3)
-                self.postAdjustment()
+                self.crop(4)
 
             elif event.key == K_5 or event.key == K_KP5:
-                self.preAdjustment()
-                self.curRect.x += (self.curRect.width/3)
-                self.curRect.y += (self.curRect.height/3)
-                self.postAdjustment()
+                self.crop(5)
 
             elif event.key == K_6 or event.key == K_KP6:
-                self.preAdjustment()
-                self.curRect.x = (self.curRect.right-(self.curRect.width/3))
-                self.curRect.y += (self.curRect.height/3)
-                self.postAdjustment()
+                self.crop(6)
 
             elif event.key == K_7 or event.key == K_KP7:
-                self.preAdjustment()
-                self.curRect.x = self.curRect.left
-                self.curRect.y += ((self.curRect.bottom/3)*2)
-                self.postAdjustment()
+                self.crop(7)
 
             elif event.key == K_8 or event.key == K_KP8:
-                self.preAdjustment()
-                self.curRect.x += (self.curRect.width/3)
-                self.curRect.y += ((self.curRect.height/3)*2)
-                self.postAdjustment()
+                self.crop(8)
 
             elif event.key == K_9 or event.key == K_KP9:
-                self.preAdjustment()
-                self.curRect.x = (self.curRect.right-(self.curRect.width/3))
-                self.curRect.y += ((self.curRect.height/3)*2)
-                self.postAdjustment()
+                self.crop(9)
 
             elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.ctrldown:
                 pygame.quit()
