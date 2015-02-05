@@ -112,20 +112,17 @@ class Engine(object):
 
             elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
                 self.altdown = True
-
-
-            elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.ctrldown:
-                pygame.quit()
-                x, y = self.curRect.center
-                self.moveMouse(x, y)
-                self.singleClickMouse()
-                self.stop
                     
-            elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.altdown:
+            elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER):
                 pygame.quit()
                 x, y = self.curRect.center
                 self.moveMouse(x, y)
-                self.rightClickMouse()
+                if self.altdown:
+                    self.rightClickMouse()
+                elif self.ctrldown:
+                    self.singleClickMouse()
+                else:
+                    self.doubleClickMouse()
                 self.stop()
 
             else:
@@ -133,14 +130,7 @@ class Engine(object):
                 print(type(keyname), keyname)
                 try: number = int(keyname)
                 except TypeError: pass
-                self.crop(number)
-                    
-            elif event.key == K_RETURN or event.key == pygame.K_KP_ENTER:
-                pygame.quit()
-                x, y = self.curRect.center
-                self.moveMouse(x, y)
-                self.doubleClickMouse()
-                self.stop()
+         
 
         elif event.type==KEYUP:
             if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
