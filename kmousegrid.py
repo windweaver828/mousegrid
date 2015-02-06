@@ -34,7 +34,7 @@ class Engine(object):
         self.curRect = self.screen.get_rect()
 
     def crop(self, number):
-        preAdjustment()
+        self.preAdjustment()
         # adjust x
         if number == 1: pass
         elif number in [4, 7]:
@@ -51,7 +51,7 @@ class Engine(object):
             self.curRect.y += (self.curRect.bottom/3)
         elif number in [7, 8, 9]:
             self.curRect.y += ((self.curRect.bottom/3)*2)
-        postAdjustment()
+        self.postAdjustment()
 
     def preAdjustment(self):
         self.prevRects.append(pygame.Rect(self.curRect))
@@ -106,13 +106,13 @@ class Engine(object):
                     self.ptx += 10
                     self.line_width += 1
                     self.render = True
-                    
+
             elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
                 self.ctrldown = True
 
             elif event.key == pygame.K_LALT or event.key == pygame.K_LALT:
                 self.altdown = True
-                    
+
             elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER):
                 pygame.quit()
                 x, y = self.curRect.center
@@ -126,11 +126,16 @@ class Engine(object):
                 self.stop()
 
             else:
-                keyname = pygame.key.name(event.key)[0]
+                keyname = pygame.key.name(event.key)
+                keyname = keyname.replace('[', "")
+                keyname = keyname.replace("]", "")
+                if keyname == "0": return
                 print(type(keyname), keyname)
-                try: number = int(keyname)
-                except ZeroDivisionError: pass
-         
+                try:
+                    number = int(keyname)
+                except ValueError: return
+
+                self.crop(number)
 
         elif event.type==KEYUP:
             if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
