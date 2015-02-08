@@ -48,9 +48,9 @@ class Engine(object):
         elif number in [2, 3]:
             self.curRect.y = self.curRect.top
         elif number in [4, 5, 6]:
-            self.curRect.y += (self.curRect.bottom/3)
+            self.curRect.y += (self.curRect.height/3)
         elif number in [7, 8, 9]:
-            self.curRect.y += ((self.curRect.bottom/3)*2)
+            self.curRect.y += ((self.curRect.height/3)*2)
         self.postAdjustment()
 
     def preAdjustment(self):
